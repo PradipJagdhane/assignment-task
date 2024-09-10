@@ -4,7 +4,7 @@ const Header = () => {
   return (
     
       <div>
-        <h6 style={{color:"#ffff"}}>made by pradeep!!!</h6>
+        <h5 style={{color:"#ffff"}}>made by pradeep!!!</h5>
       </div>
     
   );
