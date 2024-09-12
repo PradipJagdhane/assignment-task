@@ -6,8 +6,9 @@ import SettingPage from "../pages/setting";
 import LoginPage from "../Auth/login/loginPage";
 import NotFound from "../pages/notFound";
 import bcgrd from "../../assets/bcgrd.jpg";
-import ProtectedRoute from "./protectedRoute";
 import SignUp from "../Auth/register/signUp";
+import { ABOUT_ROUTE, HOME_ROUTE, LOGIN_ROUTE, SETTING_ROUTE, SIGN_ROUTE } from "./constants/routes";
+import ProtectedRoute from "./protectedRoute";
 
 const AllRoutes = () => {
   const location = useLocation();
@@ -27,13 +28,17 @@ const AllRoutes = () => {
 
   return (
     <div>
+
       <Routes>
-        <Route path="/" element={<LoginPage />}></Route>
-        <Route path="/sign" element={<SignUp />}></Route>
+         {/* Public Routes */}
+        <Route path={LOGIN_ROUTE} element={<LoginPage />}></Route>
+        <Route path={SIGN_ROUTE} element={<SignUp />}></Route>
+
+         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/home" element={<HomePage />}></Route>
-          <Route path="/about" element={<AboutPage />}></Route>
-          <Route path="/setting" element={<SettingPage />}></Route>
+          <Route path={HOME_ROUTE} element={<HomePage />}></Route>
+          <Route path={ABOUT_ROUTE} element={<AboutPage />}></Route>
+          <Route path={SETTING_ROUTE} element={<SettingPage />}></Route>
         </Route>
 
         <Route path="*" element={<NotFound />}></Route>

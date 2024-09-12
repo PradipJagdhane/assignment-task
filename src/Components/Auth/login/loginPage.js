@@ -1,18 +1,35 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./login.css";
-import { login } from "../../../rtk/auth/authSlice";
 import {  useNavigate } from "react-router-dom";
 import SignUp from "../register/signUp";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { login } from "../../../redux/slice/authSlice";
+
 
 const LoginPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { status, error } = useSelector((state) => state.auth);
 
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("pradip12@gmail.com");
+  const [password, setPassword] = useState("Admin@123");
   const [errors, setErrors] = useState({});
+
+
+const token = localStorage.getItem("token");
+
+console.log("token from login page", token);
+
+  useEffect(()=> {
+    const token = localStorage.getItem("token");
+    console.log("token from login page", token);
+    if(token){
+      navigate("/home");
+    }
+  });
 
   function validateEmail(email) {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -43,10 +60,12 @@ const LoginPage = () => {
     }
 
     if (Object.keys(validationErrors).length === 0) {
-      setTimeout(() => {
-        dispatch(login());
-        navigate("/home");
-      }, 1000);
+        dispatch(login({ email, password })).then((result) =>{
+          if(result.meta.requestStatus === 'fulfilled'){
+            navigate("/home");
+            toast.success('You are successfully logged in')
+          }
+        });
     } else {
       setErrors(validationErrors);
     }
@@ -54,9 +73,14 @@ const LoginPage = () => {
 
   function btnclicked(e) {
     e.preventDefault();
-
     handleClick();
   }
+
+  useEffect(() => {
+    if (status === "failed" && error) {
+      toast.error(error);
+    }
+  }, [status, error]);
 
   return (
     <div className={`main-div ${isLogin ? "slide-in" : "slide-out"}`}>
@@ -101,6 +125,7 @@ const LoginPage = () => {
               <button type="submit" className="btn" onClick={btnclicked}>
                 Login
               </button>
+              {/* {status === 'failed' && <p className="error">{toast.error(error.message)} </p>} */}
             </form>
           </div>
           {/* 

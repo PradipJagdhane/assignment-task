@@ -5,9 +5,10 @@ import Navbar from "../Navbar/navbar";
 
 const ProtectedRoute = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const token = localStorage.getItem("token");
   console.log("update auth state in protected", isAuthenticated);
-  console.log("children from protec");
-  if (!isAuthenticated) {
+  console.log("token from localstorage", token);
+  if (!isAuthenticated && !token) {
     return <Navigate to="/" />;
   }
 
