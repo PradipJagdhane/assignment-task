@@ -1,5 +1,6 @@
 import React from "react";
 import 'react-toastify/dist/ReactToastify.css';
+import Example from "../table/table";
 
 const HomePage = () => {
 
@@ -9,6 +10,7 @@ const HomePage = () => {
     <div>
       <h1>Home Page</h1>
       {/* <LogoutButton /> */}
+      {/* <Example /> */}
     </div>
   );
 };

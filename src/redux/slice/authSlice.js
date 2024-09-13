@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const loginKey = process.env.REACT_APP_LOGIN_API_KEY;
 
@@ -11,24 +11,24 @@ const initialState = {
   error: null,
 };
 
-export const login = createAsyncThunk(
-  "auth/login",
-  async ({ email, password }, { rejectWithValue }) => {
-    try {
-      const response = await axios.post(`${loginKey}`, {
-        email,
-        password,
-      });
-      console.log("api responce", response.data);
-      return response.data;
-    } catch (error) {
-      if (error.response && error.response.data) {
-        return rejectWithValue(error.response.data.message);
-      }
-      return rejectWithValue("Something went wrong");
-    }
-  }
-);
+// export const login = createAsyncThunk(
+//   "auth/login",
+//   async ({ email, password }, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.post(`${loginKey}`, {
+//         email,
+//         password,
+//       });
+//       console.log("api responce", response.data);
+//       return response.data;
+//     } catch (error) {
+//       if (error.response && error.response.data) {
+//         return rejectWithValue(error.response.data.message);
+//       }
+//       return rejectWithValue("Something went wrong");
+//     }
+//   }
+// );
 
 const authSlice = createSlice({
   name: "auth",
@@ -41,8 +41,25 @@ const authSlice = createSlice({
 
     // },
 
+    login: (state, ) => {
+      state.status = 'loading';
+    },
+
+    loginSuccess: (state, action) => {
+      state.status = 'succeeded';
+      state.isAuthenticated = true;
+      state.token = action.payload.token;
+      localStorage.setItem("token", action.payload.token);
+    },
+
+    loginFailure: (state, action) => {
+      state.status = 'failed';
+      state.error = action.payload;
+    },
+
     logout: (state) => {
       state.isAuthenticated = false;
+      state.status = "";
       state.token = null;
       localStorage.removeItem("token");
       console.log("logout state from dialogcompoent", state);
@@ -50,25 +67,25 @@ const authSlice = createSlice({
     },
   },
 
-  extraReducers: (builder) => {
-    builder
-      .addCase(login.pending, (state) => {
-        state.status = "loading";
-        state.error = null;
-      })
-      .addCase(login.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.isAuthenticated = true;
-        state.token = action.payload.token;
-        localStorage.setItem("token", action.payload.token);
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload;
-      });
-  },
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(login.pending, (state) => {
+  //       state.status = "loading";
+  //       state.error = null;
+  //     })
+  //     .addCase(login.fulfilled, (state, action) => {
+  //       state.status = "succeeded";
+  //       state.isAuthenticated = true;
+  //       state.token = action.payload.token;
+  //       localStorage.setItem("token", action.payload.token);
+  //     })
+  //     .addCase(login.rejected, (state, action) => {
+  //       state.status = "failed";
+  //       state.error = action.payload;
+  //     });
+  // },
 });
 
-export const { logout } = authSlice.actions;
+export const { login, loginSuccess, loginFailure, logout } = authSlice.actions;
 
 export default authSlice.reducer;

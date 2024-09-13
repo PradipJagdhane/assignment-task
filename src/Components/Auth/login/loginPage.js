@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./login.css";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SignUp from "../register/signUp";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../redux/slice/authSlice";
-
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -18,15 +17,14 @@ const LoginPage = () => {
   const [password, setPassword] = useState("Admin@123");
   const [errors, setErrors] = useState({});
 
+  const token = localStorage.getItem("token");
 
-const token = localStorage.getItem("token");
+  console.log("token from login page", token);
 
-console.log("token from login page", token);
-
-  useEffect(()=> {
+  useEffect(() => {
     const token = localStorage.getItem("token");
     console.log("token from login page", token);
-    if(token){
+    if (token) {
       navigate("/home");
     }
   });
@@ -60,12 +58,18 @@ console.log("token from login page", token);
     }
 
     if (Object.keys(validationErrors).length === 0) {
-        dispatch(login({ email, password })).then((result) =>{
-          if(result.meta.requestStatus === 'fulfilled'){
-            navigate("/home");
-            toast.success('You are successfully logged in')
-          }
-        });
+      try {
+       dispatch(login({ email, password }));
+          //  toast.success("You are successfully logged in");
+
+        // if (result.meta.status === "succeeded") {
+        //   navigate("/home");
+        //   toast.success("You are successfully logged in");
+        // }
+      } catch (err) {
+        toast.error("Login failed. Please try again.");
+      }
+ 
     } else {
       setErrors(validationErrors);
     }
@@ -79,7 +83,10 @@ console.log("token from login page", token);
   useEffect(() => {
     if (status === "failed" && error) {
       toast.error(error);
+    }else if(status === 'succeeded'){
+      toast.success('login successfulll');
     }
+    
   }, [status, error]);
 
   return (
@@ -133,7 +140,8 @@ console.log("token from login page", token);
           Don't have an account? <span style={{ color: "black" }}>Sign Up</span>
         </Link> */}
           <button className="toggle-btn" onClick={() => setIsLogin(false)}>
-            Don't have an account? <span style={{color:"black"}}> Sign Up</span>
+            Don't have an account?{" "}
+            <span style={{ color: "black" }}> Sign Up</span>
           </button>
         </div>
       ) : (
