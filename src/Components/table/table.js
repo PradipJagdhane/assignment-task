@@ -1,10 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from 'material-react-table';
 
 
+// const [data, setData] = useState([]);
 
 const data = [
   {
@@ -41,6 +42,15 @@ const data = [
     },
     address: '722 Emie Stream',
     city: 'Lincoln',
+    state: 'Nebraska',
+  },
+  {
+    name: {
+      firstName: 'Joshua',
+      lastName: 'Rolluffs',
+    },
+    address: '32188 Larkin Turnpike',
+    city: 'Omaha',
     state: 'Nebraska',
   },
   {

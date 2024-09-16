@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-const loginKey = process.env.REACT_APP_LOGIN_API_KEY;
 
 const token = localStorage.getItem("token");
 

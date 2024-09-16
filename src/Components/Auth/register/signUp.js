@@ -9,6 +9,8 @@ const SignUp = ({ setIsLogin }) => {
   const [passwordError, setPasswordError] = useState("");
   const [apiError, setApiError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+const [role, setRole] = useState("");
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,6 +48,8 @@ const SignUp = ({ setIsLogin }) => {
         // Handle success response
         setSuccessMessage("User registered successfully!");
         setApiError(""); // Clear previous errors if any
+
+        localStorage.setItem("userRole", role);
       } else {
         // Handle error response from API
         setApiError(result.msg || "Signup failed");
@@ -59,6 +63,18 @@ const SignUp = ({ setIsLogin }) => {
     <div className="signup-div">
       <h1>Sign Up</h1>
       <form className="signup-form" onSubmit={handleSubmit}>
+        <div>
+          <label>Select Role</label>{" "}
+          <select
+          value={role}
+        onChange={(e) => setRole(e.target.value)}
+        required
+          >
+            <option value="">select</option>
+            <option value="admin">Admin</option>
+            <option value="patient">Patient</option>
+          </select>
+        </div>
         <div className="text_area">
           <label>
             Name

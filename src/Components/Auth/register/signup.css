@@ -7,8 +7,8 @@ body {
   h1 {
     font-family: "Segoe UI", bold;
     font-size: 35px;
-    margin-top: 4rem;
-    margin-bottom: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
   
   .signup-form {

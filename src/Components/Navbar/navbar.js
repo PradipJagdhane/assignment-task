@@ -9,6 +9,12 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
+
+// const [useRole, setUserRole] = useState("");
+
+  const userRole = localStorage.getItem("userRole");
+
+  console.log("userRole", userRole);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -19,6 +25,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    localStorage.removeItem("userRole");
     setOpen(false);
   };
   return (
@@ -44,15 +51,39 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <Link to="/home" className="nav-item nav-link">
-              Home
-            </Link>
-            <Link to="/about" className="nav-item nav-link">
+            {userRole === "admin" && (
+              <>
+                <Link to="/home" className="nav-item nav-link">
+                  Dashboard
+                </Link>
+
+                <Link to="/setting" className="nav-item nav-link">
+                  Setting
+                </Link>
+              </>
+            )}
+
+            {/* <Link to="/home" className="nav-item nav-link">
+              Dashboard
+            </Link> */}
+            {userRole === "patient" && (
+              <>
+                <Link to="/about" className="nav-item nav-link">
+                  About
+                </Link>
+                <Link to="/setting" className="nav-item nav-link">
+                  Setting
+                </Link>
+              </>
+            )}
+
+            {/* <Link to="/about" className="nav-item nav-link">
               About
-            </Link>
-            <Link to="/setting" className="nav-item nav-link">
+            </Link> */}
+
+            {/* <Link to="/setting" className="nav-item nav-link">
               Setting
-            </Link>
+            </Link> */}
             {/* <a className="nav-item nav-link disabled" href="">
               Disabled
             </a> */}
