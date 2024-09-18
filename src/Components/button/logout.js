@@ -30,7 +30,7 @@ const LogoutButton = ({ handleLogout }) => {
         variant="contained"
         color="secondary"
         onClick={handleClickOpen}
-        style={{ marginTop: "20px" }}
+        style={{ marginTop: "15px" }}
       >
         Logout
       </Button>

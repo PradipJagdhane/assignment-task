@@ -9,11 +9,11 @@ const SignUp = ({ setIsLogin }) => {
   const [passwordError, setPasswordError] = useState("");
   const [apiError, setApiError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-const [role, setRole] = useState("");
-
+  const [role, setRole] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("role from form submitt", name);
 
     // Check if passwords match
     if (password !== confirmPassword) {
@@ -30,6 +30,7 @@ const [role, setRole] = useState("");
       email: username,
       password,
       confirmPassword,
+      role,
     };
 
     try {
@@ -49,7 +50,7 @@ const [role, setRole] = useState("");
         setSuccessMessage("User registered successfully!");
         setApiError(""); // Clear previous errors if any
 
-        localStorage.setItem("userRole", role);
+        // localStorage.setItem("userRole", role);
       } else {
         // Handle error response from API
         setApiError(result.msg || "Signup failed");
@@ -66,9 +67,9 @@ const [role, setRole] = useState("");
         <div>
           <label>Select Role</label>{" "}
           <select
-          value={role}
-        onChange={(e) => setRole(e.target.value)}
-        required
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+            required
           >
             <option value="">select</option>
             <option value="admin">Admin</option>

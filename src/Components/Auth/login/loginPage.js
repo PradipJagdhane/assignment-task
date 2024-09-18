@@ -6,6 +6,7 @@ import SignUp from "../register/signUp";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../redux/slice/authSlice";
+import { jwtDecode } from "jwt-decode";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -14,20 +15,36 @@ const LoginPage = () => {
 
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState("pradip12@gmail.com");
-  const [password, setPassword] = useState("Admin@123");
+  const [password, setPassword] = useState("Pradip@123");
   const [errors, setErrors] = useState({});
 
   const token = localStorage.getItem("token");
 
   console.log("token from login page", token);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    console.log("token from login page", token);
-    if (token) {
-      navigate("/home");
+  const navigateBasedOnRole = (token) => {
+    try {
+      const decodedToken = jwtDecode(token);
+      const role = decodedToken.role;
+
+      if (role === "admin") {
+        navigate("/home");
+      } else if (role === "patient") {
+        navigate("/about");
+      }
+    } catch (error) {
+      console.error("Error decoding token", error);
     }
-  });
+  };
+
+  useEffect(() => {
+    // const token = localStorage.getItem("token");
+    // console.log("token from login page", token);
+
+    if (token) {
+      navigateBasedOnRole(token);
+    }
+  }, [token]);
 
   function validateEmail(email) {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
@@ -59,17 +76,11 @@ const LoginPage = () => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-       dispatch(login({ email, password }));
-          //  toast.success("You are successfully logged in");
-
-        // if (result.meta.status === "succeeded") {
-        //   navigate("/home");
-        //   toast.success("You are successfully logged in");
-        // }
+        dispatch(login({ email, password }));
+       
       } catch (err) {
         toast.error("Login failed. Please try again.");
       }
- 
     } else {
       setErrors(validationErrors);
     }
@@ -83,10 +94,9 @@ const LoginPage = () => {
   useEffect(() => {
     if (status === "failed" && error) {
       toast.error(error);
-    }else if(status === 'succeeded'){
-      toast.success('login successfulll');
+    } else if (status === "succeeded") {
+      toast.success("login successfulll");
     }
-    
   }, [status, error]);
 
   return (

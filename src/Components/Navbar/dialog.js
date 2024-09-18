@@ -7,6 +7,7 @@ const DialogBox = ({ open, onClose, handleLogout }) => {
   const [userInfo, setUserInfo] = useState({
     name: "",
     email: "",
+    role: "",
   });
 
   useEffect(() => {
@@ -17,6 +18,7 @@ const DialogBox = ({ open, onClose, handleLogout }) => {
       setUserInfo({
         name: decodedToken.name,
         email: decodedToken.email,
+        role: decodedToken.role,
       })
     }
   },[])
@@ -26,7 +28,7 @@ const DialogBox = ({ open, onClose, handleLogout }) => {
       onClose={onClose}
       style={{
         width: "300px",
-        height: "260px",
+        height: "280px",
         position: "relative",
         float: "right",
         top: 0,
@@ -36,7 +38,7 @@ const DialogBox = ({ open, onClose, handleLogout }) => {
       <DialogTitle>User: <b>{userInfo.name}</b></DialogTitle>
       <DialogContent>
         <p>{userInfo.email}</p>
-     
+     <p>Role: {userInfo.role}</p>
             <LogoutButton handleLogout={handleLogout}/>
       </DialogContent>
     </Dialog>

@@ -1,109 +1,72 @@
-import { useMemo, useState } from 'react';
-import {
-  MaterialReactTable,
-  useMaterialReactTable,
-} from 'material-react-table';
-
-
-// const [data, setData] = useState([]);
-
-const data = [
-  {
-    name: {
-      firstName: 'John',
-      lastName: 'Doe',
-    },
-    address: '261 Erdman Ford',
-    city: 'East Daphne',
-    state: 'Kentucky',
-  },
-  {
-    name: {
-      firstName: 'Jane',
-      lastName: 'Doe',
-    },
-    address: '769 Dominic Grove',
-    city: 'Columbus',
-    state: 'Ohio',
-  },
-  {
-    name: {
-      firstName: 'Joe',
-      lastName: 'Doe',
-    },
-    address: '566 Brakus Inlet',
-    city: 'South Linda',
-    state: 'West Virginia',
-  },
-  {
-    name: {
-      firstName: 'Kevin',
-      lastName: 'Vandy',
-    },
-    address: '722 Emie Stream',
-    city: 'Lincoln',
-    state: 'Nebraska',
-  },
-  {
-    name: {
-      firstName: 'Joshua',
-      lastName: 'Rolluffs',
-    },
-    address: '32188 Larkin Turnpike',
-    city: 'Omaha',
-    state: 'Nebraska',
-  },
-  {
-    name: {
-      firstName: 'Joshua',
-      lastName: 'Rolluffs',
-    },
-    address: '32188 Larkin Turnpike',
-    city: 'Omaha',
-    state: 'Nebraska',
-  },
-];
+import { useEffect, useMemo, useState } from "react";
+import { MaterialReactTable } from "material-react-table";
 
 const Example = () => {
-  //should be memoized or stable
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          "https://jsonplaceholder.typicode.com/users"
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        console.error("Error fetching Data", error);
+      } finally{
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   const columns = useMemo(
     () => [
       {
-        accessorKey: 'name.firstName', 
-        header: 'First Name',
-        size: 150,
+        accessorKey: "name",
+        header: "Name",
       },
       {
-        accessorKey: 'name.lastName',
-        header: 'Last Name',
-        size: 150,
+        accessorKey: "email",
+        header: "Email",
       },
       {
-        accessorKey: 'address', //normal accessorKey
-        header: 'Address',
-        size: 200,
+        accessorKey: "address.street",
+        header: "Street",
       },
       {
-        accessorKey: 'city',
-        header: 'City',
-        size: 150,
+        accessorKey: "address.city",
+        header: "City",
       },
       {
-        accessorKey: 'state',
-        header: 'State',
-        size: 150,
+        accessorKey: "phone",
+        header: "Phone",
       },
     ],
-    [],
+    []
   );
 
-  const table = useMaterialReactTable({
-    columns,
-    data, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
-  });
+  return (
+    <MaterialReactTable
+      columns={columns}
+      data={data}
+      state={{
+        isLoading: isLoading,
+        showSkeletons: isLoading,
+      }}
 
-  return <MaterialReactTable table={table} />;
+      muiTablePaperProps={{
+        elevation: 3,
+      }}
+
+    />
+  );
 };
 
 export default Example;
-

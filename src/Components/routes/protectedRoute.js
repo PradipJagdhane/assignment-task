@@ -1,26 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "../Navbar/navbar";
+import { jwtDecode } from "jwt-decode";
 
 const ProtectedRoute = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const token = localStorage.getItem("token");
+  const [role, setUserRole] = useState("");
+    
+    useEffect(() => {    
+      if(token){
+        const decodedToken = jwtDecode(token);
+        setUserRole(decodedToken.role);
+        console.log("decode token role from protected>>>", decodedToken.role);
+      }
+    
+    },[token]);
+
+
+
+
   //add new line for user role
-  const userRole = localStorage.getItem("useRole");
-  console.log("role from localstorage", userRole);
   console.log("update auth state in protected", isAuthenticated);
-  console.log("token from localstorage", token);
+  console.log("decode token from navbar role---45",role);
+
   if (!isAuthenticated && !token) {
     return <Navigate to="/" />;
   }
 
+
+
   return (
     <>
-      <Navbar />
-      {/* new line */}
-      {userRole === "admin" && <Navigate to="/home" />}
-      {userRole === "patient" && <Navigate to="/about" />}
+      <Navbar role={role}/>
+      
+      {/* {role === "admin" && <Navigate to="/home" replace/>}
+      {role === "patient" && <Navigate to="/about" replace/>} */}
+      
       <Outlet />
     </>
   );

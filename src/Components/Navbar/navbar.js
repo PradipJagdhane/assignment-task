@@ -5,16 +5,17 @@ import { FaSmile } from "react-icons/fa";
 import DialogBox from "./dialog";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/slice/authSlice";
-const Navbar = () => {
+// import { jwtDecode } from "jwt-decode";
+const Navbar = ({role}) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
+  console.log("role from props in Navbar::", role);
 
-// const [useRole, setUserRole] = useState("");
 
-  const userRole = localStorage.getItem("userRole");
 
-  console.log("userRole", userRole);
+console.log("role from protected props>>>>>>+ ",role);
+  // console.log("userRole", userRole);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -25,7 +26,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem("userRole");
+    // localStorage.removeItem("userRole");
     setOpen(false);
   };
   return (
@@ -38,6 +39,7 @@ const Navbar = () => {
         {/* <a className="navbar-brand" href="/homew">
           Navbar
         </a> */}
+
         <button
           className="navbar-toggler"
           type="button"
@@ -51,7 +53,7 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            {userRole === "admin" && (
+            {role === "admin" && (
               <>
                 <Link to="/home" className="nav-item nav-link">
                   Dashboard
@@ -63,10 +65,12 @@ const Navbar = () => {
               </>
             )}
 
-            {/* <Link to="/home" className="nav-item nav-link">
+           
+{/*        <Link to="/home" className="nav-item nav-link">
               Dashboard
             </Link> */}
-            {userRole === "patient" && (
+          {/* <p>Frim protected:{role.role}</p> */}
+            {role === "patient" && (
               <>
                 <Link to="/about" className="nav-item nav-link">
                   About
@@ -79,14 +83,14 @@ const Navbar = () => {
 
             {/* <Link to="/about" className="nav-item nav-link">
               About
-            </Link> */}
+            </Link>  */}
 
-            {/* <Link to="/setting" className="nav-item nav-link">
+           {/* <Link to="/setting" className="nav-item nav-link">
               Setting
-            </Link> */}
+            // </Link> */}
             {/* <a className="nav-item nav-link disabled" href="">
-              Disabled
-            </a> */}
+               Disabled
+             </a>  */}
           </div>
         </div>
         <div className="ml-auto">
