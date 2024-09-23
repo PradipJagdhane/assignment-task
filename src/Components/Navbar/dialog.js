@@ -29,10 +29,12 @@ const DialogBox = ({ open, onClose, handleLogout }) => {
       style={{
         width: "300px",
         height: "280px",
-        position: "relative",
-        float: "right",
+        position: "absolute",
+        float: "inline-end",
         top: 0,
         right: 0,
+        //  left: "35rem",
+        // alignItems: "flex-start"
       }}
     >
       <DialogTitle>User: <b>{userInfo.name}</b></DialogTitle>

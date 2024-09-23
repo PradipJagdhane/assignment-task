@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { MaterialReactTable } from "material-react-table";
 
+const tableKey = process.env.REACT_APP_TABLE_API_KEY;
+
 const Example = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +12,7 @@ const Example = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users"
+          `${tableKey}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -59,6 +61,7 @@ const Example = () => {
       state={{
         isLoading: isLoading,
         showSkeletons: isLoading,
+
       }}
 
       muiTablePaperProps={{

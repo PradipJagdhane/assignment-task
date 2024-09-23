@@ -79,12 +79,24 @@ body {
     padding: 0;
   }
   
-  .main-div, .signup-div {
+  .signup-div {
+    padding-top: 2em;
+    background: #ffffff;
+    width: 29em;
+    height: 42rem;
+    margin-top: 2%;
+    float: left;
+    margin-left: 60px;
+    border-radius: 22px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  .main-div{
     padding-top: 2em;
     background: #ffffff;
     width: 29em;
     height: 36rem;
-    margin-top: 5%;
+    margin-top: 2%;
     float: left;
     margin-left: 60px;
     border-radius: 22px;

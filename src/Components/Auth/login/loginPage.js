@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { login } from "../../../redux/slice/authSlice";
 import { jwtDecode } from "jwt-decode";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,11 @@ const LoginPage = () => {
   const [email, setEmail] = useState("pradip12@gmail.com");
   const [password, setPassword] = useState("Pradip@123");
   const [errors, setErrors] = useState({});
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
 
   const token = localStorage.getItem("token");
 
@@ -77,7 +83,6 @@ const LoginPage = () => {
     if (Object.keys(validationErrors).length === 0) {
       try {
         dispatch(login({ email, password }));
-       
       } catch (err) {
         toast.error("Login failed. Please try again.");
       }
@@ -120,17 +125,36 @@ const LoginPage = () => {
                 {errors.email && <span className="error">{errors.email}</span>}
               </div>
               <br /> <br />
-              <div className="text_area">
+              <div
+                className="text_area"
+                style={{ position: "relative", display: "inline-block" }}
+              >
                 {" "}
                 <label>
                   Password:
                   <input
-                    type="password"
+                    type={isPasswordVisible ? "text" : "password"}
                     value={password}
                     className="text_input"
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;"
                   />
+                  <span
+                    onClick={togglePasswordVisibility}
+                    style={{
+                      position: "absolute",
+                      right: "22px",
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {isPasswordVisible ? (
+                      <IoEyeOffOutline size={20} />
+                    ) : (
+                      <IoEyeOutline size={20} />
+                    )}
+                  </span>{" "}
                 </label>
                 {errors.password && (
                   <span className="error">{errors.password}</span>

@@ -4,9 +4,9 @@ import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "../Navbar/navbar";
 import { jwtDecode } from "jwt-decode";
 
-const ProtectedRoute = () => {
+const ProtectedRoute = ({ allowedRoles }) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token"); 
   const [role, setUserRole] = useState("");
     
     useEffect(() => {    
@@ -18,16 +18,22 @@ const ProtectedRoute = () => {
     
     },[token]);
 
-
+console.log("allowroutes from Protesdededd", allowedRoles);
 
 
   //add new line for user role
   console.log("update auth state in protected", isAuthenticated);
-  console.log("decode token from navbar role---45",role);
+  console.log("decode token from navallowedRoles[0] bar role---45",role);
 
   if (!isAuthenticated && !token) {
     return <Navigate to="/" />;
   }
+
+  if(allowedRoles[0] && !allowedRoles[0].includes(role)){
+    return <Navigate to="/not-authorized" />
+  }
+
+ 
 
 
 

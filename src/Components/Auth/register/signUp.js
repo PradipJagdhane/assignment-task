@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./signup.css";
 
+const signKey = process.env.REACT_APP_SIGN_API_KEY;
+
 const SignUp = ({ setIsLogin }) => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -10,6 +12,7 @@ const SignUp = ({ setIsLogin }) => {
   const [apiError, setApiError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [role, setRole] = useState("");
+  const [backendErrors, setBackendErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +38,7 @@ const SignUp = ({ setIsLogin }) => {
 
     try {
       // Send API request
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
+      const response = await fetch(`${signKey}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,16 +47,23 @@ const SignUp = ({ setIsLogin }) => {
       });
 
       const result = await response.json();
-
+      console.log(
+        "result eeororo from server==========+++++++++++",
+        result.errors
+      );
       if (response.ok) {
         // Handle success response
         setSuccessMessage("User registered successfully!");
         setApiError(""); // Clear previous errors if any
-
+        setBackendErrors({});
         // localStorage.setItem("userRole", role);
       } else {
+        if (result.errors) {
+          setBackendErrors(result.errors);
+        } else {
+          setApiError(result.error || "Signup failed");
+        }
         // Handle error response from API
-        setApiError(result.msg || "Signup failed");
       }
     } catch (error) {
       setApiError("Server error. Please try again later.");
@@ -66,15 +76,14 @@ const SignUp = ({ setIsLogin }) => {
       <form className="signup-form" onSubmit={handleSubmit}>
         <div>
           <label>Select Role</label>{" "}
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            required
-          >
+          <select value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="">select</option>
             <option value="admin">Admin</option>
             <option value="patient">Patient</option>
           </select>
+          {backendErrors.role && (
+            <p className="error">{backendErrors.role.msg}</p>
+          )}
         </div>
         <div className="text_area">
           <label>
@@ -87,6 +96,9 @@ const SignUp = ({ setIsLogin }) => {
               onChange={(e) => setName(e.target.value)}
             />
           </label>
+          {backendErrors.name && (
+            <p className="error">{backendErrors.name.msg}</p>
+          )}
         </div>
         <br />
         <div className="text_area">
@@ -100,6 +112,9 @@ const SignUp = ({ setIsLogin }) => {
               onChange={(e) => setUsername(e.target.value)}
             />
           </label>
+          {backendErrors.email && (
+            <p className="error">{backendErrors.email.msg}</p>
+          )}
         </div>
         <br />
         <div className="text_area">
@@ -113,6 +128,9 @@ const SignUp = ({ setIsLogin }) => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </label>
+          {backendErrors.password && (
+            <p className="error">{backendErrors.password.msg}</p>
+          )}
         </div>
         <br />
         <div className="text_area">
@@ -126,6 +144,7 @@ const SignUp = ({ setIsLogin }) => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </label>
+          {passwordError && <p className="error">{passwordError}</p>}
         </div>
         <br />
         {passwordError && <p className="error">{passwordError}</p>}
