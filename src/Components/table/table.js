@@ -1,32 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { MaterialReactTable } from "material-react-table";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTableRequest } from "../../redux/slice/tableSlice";
 
-const tableKey = process.env.REACT_APP_TABLE_API_KEY;
 
 const Example = () => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+
+  const dispatch =  useDispatch();
+  const { data, isLoading } = useSelector((state) => state.table);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `${tableKey}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        console.error("Error fetching Data", error);
-      } finally{
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+    dispatch(fetchTableRequest());
+  },[dispatch]);
+
+
 
   const columns = useMemo(
     () => [

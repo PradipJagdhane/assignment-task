@@ -10,16 +10,15 @@ const loginService = async (email, password) => {
       password,
     },
     {
-      method: 'POST', // Explicitly setting the method
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json', // Defining content type
-        'Authorization': 'Bearer your_token_here', // Example of an Authorization header, if needed
+        "Content-Type": "application/json",
+        // 'Authorization': 'Bearer token',
       },
     }
   );
+  console.log("response from login servicesssss..//./.,", response);
 
-  console.log("Response from login service:", response);
-  
   return response.data;
 };
 

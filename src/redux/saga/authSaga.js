@@ -1,20 +1,16 @@
-import axios from "axios";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { login, loginFailure, loginSuccess } from "../slice/authSlice";
+import loginService from "../../services/loginService";
 
-const loginKey = process.env.REACT_APP_LOGIN_API_KEY;
 
 function* loginSaga(action) {
     try{
-        const response = yield call (axios.post, `${loginKey}`,{
-            email: action.payload.email,
-            password: action.payload.password,
-        });
 
-        const data = response.data;
+        const data = yield call(loginService, action.payload.email, action.payload.password);
+   
+
         yield put(loginSuccess(data));
         console.log("data from authSaga", data);
-        // localStorage.setItem('token', data.token);
     }catch(error){
         let errorMsg = "Something went wrong";
         if(error.response && error.response.data){

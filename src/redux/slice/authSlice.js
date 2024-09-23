@@ -9,38 +9,18 @@ const initialState = {
   error: null,
 };
 
-// export const login = createAsyncThunk(
-//   "auth/login",
-//   async ({ email, password }, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.post(`${loginKey}`, {
-//         email,
-//         password,
-//       });
-//       console.log("api responce", response.data);
-//       return response.data;
-//     } catch (error) {
-//       if (error.response && error.response.data) {
-//         return rejectWithValue(error.response.data.message);
-//       }
-//       return rejectWithValue("Something went wrong");
-//     }
-//   }
-// );
+
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
 
   reducers: {
-    // login: (state) => {
-    //   state.isAuthenticated = true;
-    //   console.log("from login slice",state);
-
-    // },
+  
 
     login: (state, ) => {
       state.status = 'loading';
+      console.log("from login slice....")
     },
 
     loginSuccess: (state, action) => {
@@ -65,23 +45,6 @@ const authSlice = createSlice({
     },
   },
 
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(login.pending, (state) => {
-  //       state.status = "loading";
-  //       state.error = null;
-  //     })
-  //     .addCase(login.fulfilled, (state, action) => {
-  //       state.status = "succeeded";
-  //       state.isAuthenticated = true;
-  //       state.token = action.payload.token;
-  //       localStorage.setItem("token", action.payload.token);
-  //     })
-  //     .addCase(login.rejected, (state, action) => {
-  //       state.status = "failed";
-  //       state.error = action.payload;
-  //     });
-  // },
 });
 
 export const { login, loginSuccess, loginFailure, logout } = authSlice.actions;

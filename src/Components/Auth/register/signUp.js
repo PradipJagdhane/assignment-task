@@ -1,31 +1,40 @@
 import React, { useState } from "react";
 import "./signup.css";
+// import signUpUser from "../../../services/signupService";
+import { useDispatch, useSelector } from "react-redux";
+import  {signupRequest}  from "../../../redux/slice/signupSlice";
 
-const signKey = process.env.REACT_APP_SIGN_API_KEY;
+// const signKey = process.env.REACT_APP_SIGN_API_KEY;
 
 const SignUp = ({ setIsLogin }) => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [apiError, setApiError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  // const [passwordError, setPasswordError] = useState("");
+  // const [apiError, setApiError] = useState("");
+  // const [successMessage, setSuccessMessage] = useState("");
   const [role, setRole] = useState("");
-  const [backendErrors, setBackendErrors] = useState({});
+  // const [backendErrors, setBackendErrors] = useState({});
+
+
+const dispatch = useDispatch();
+const { successMessage, apiError, backendErrors, loading } = useSelector((state) => state.signup);
+
+console.log("successs mesg",successMessage);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("role from form submitt", name);
+    console.log("role from form submitt", password, confirmPassword);
 
     // Check if passwords match
     if (password !== confirmPassword) {
-      setPasswordError("Passwords do not match.");
+      // setPasswordError("Passwords do not match.");
       return;
     }
 
     // Reset password error if passwords match
-    setPasswordError("");
+    // setPasswordError("");
 
     // Prepare data to send
     const signupData = {
@@ -35,39 +44,13 @@ const SignUp = ({ setIsLogin }) => {
       confirmPassword,
       role,
     };
+console.log("signupdata fron client side", signupData);
 
-    try {
-      // Send API request
-      const response = await fetch(`${signKey}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(signupData),
-      });
+    dispatch(signupRequest(signupData));
 
-      const result = await response.json();
-      console.log(
-        "result eeororo from server==========+++++++++++",
-        result.errors
-      );
-      if (response.ok) {
-        // Handle success response
-        setSuccessMessage("User registered successfully!");
-        setApiError(""); // Clear previous errors if any
-        setBackendErrors({});
-        // localStorage.setItem("userRole", role);
-      } else {
-        if (result.errors) {
-          setBackendErrors(result.errors);
-        } else {
-          setApiError(result.error || "Signup failed");
-        }
-        // Handle error response from API
-      }
-    } catch (error) {
-      setApiError("Server error. Please try again later.");
-    }
+
+
+
   };
 
   return (
@@ -144,10 +127,10 @@ const SignUp = ({ setIsLogin }) => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </label>
-          {passwordError && <p className="error">{passwordError}</p>}
+          {/* {passwordError && <p className="error">{passwordError}</p>} */}
         </div>
         <br />
-        {passwordError && <p className="error">{passwordError}</p>}
+        {/* {passwordError && <p className="error">{passwordError}</p>} */}
         {apiError && <p className="error">{apiError}</p>}
         {successMessage && <p className="success">{successMessage}</p>}
         <button type="submit" className="btn">
