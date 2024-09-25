@@ -8,7 +8,7 @@ function* handleFetchTable() {
         const data = yield call(fetchTableData);
         yield put(fetchTableSuccess(data));
     }catch (error){
-        yield put(fetchTableFailure("Failed to fetch table data"));
+        yield put(fetchTableFailure(error.message));
     }
 }
 

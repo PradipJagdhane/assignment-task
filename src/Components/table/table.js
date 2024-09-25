@@ -7,7 +7,7 @@ import { fetchTableRequest } from "../../redux/slice/tableSlice";
 const Example = () => {
 
   const dispatch =  useDispatch();
-  const { data, isLoading } = useSelector((state) => state.table);
+  const  {data, isloading } = useSelector((state) => state.table);
 
   useEffect(() => {
     dispatch(fetchTableRequest());
@@ -46,8 +46,8 @@ const Example = () => {
       columns={columns}
       data={data}
       state={{
-        isLoading: isLoading,
-        showSkeletons: isLoading,
+        isLoading: isloading,
+        showSkeletons: isloading,
 
       }}
 

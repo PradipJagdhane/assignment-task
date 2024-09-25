@@ -12,6 +12,8 @@ const tableSlice = createSlice({
     reducers: {
         fetchTableRequest(state) {
             state.isloading = true;
+
+            
         },
 
         fetchTableSuccess(state, action) {
@@ -22,6 +24,8 @@ const tableSlice = createSlice({
         fetchTableFailure(state, action) {
             state.isloading = false;
             state.error = action.payload;
+            console.log("from slice...",state.isloading);
+
         },
     },
 });
