@@ -59,6 +59,10 @@ const Navbar = ({ role }) => {
                   Dashboard
                 </Link>
 
+                <Link to="/users" className="nav-item nav-link">
+                Users
+                </Link>
+
                 <Link to="/setting" className="nav-item nav-link">
                   Setting
                 </Link>

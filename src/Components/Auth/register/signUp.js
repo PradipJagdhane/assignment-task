@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./signup.css";
-// import signUpUser from "../../../services/signupService";
 import { useDispatch, useSelector } from "react-redux";
 import  {signupRequest}  from "../../../redux/slice/signupSlice";
 
@@ -19,7 +18,7 @@ const SignUp = ({ setIsLogin }) => {
 
 
 const dispatch = useDispatch();
-const { successMessage, apiError, backendErrors, loading } = useSelector((state) => state.signup);
+const { successMessage, apiError, backendErrors } = useSelector((state) => state.signup);
 
 console.log("successs mesg",successMessage);
 

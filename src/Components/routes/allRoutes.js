@@ -14,9 +14,11 @@ import {
   NOT_AUTH,
   SETTING_ROUTE,
   SIGN_ROUTE,
+  USER_ROUTE,
 } from "./constants/routes";
 import ProtectedRoute from "./protectedRoute";
 import NotAuthorized from "../pages/errorPages/NotAuthorized";
+import UserTable from "../table/userData";
 
 const AllRoutes = () => {
   const location = useLocation();
@@ -38,6 +40,7 @@ const AllRoutes = () => {
     { path: LOGIN_ROUTE, element: <LoginPage />, isProtected: false },
     { path: SIGN_ROUTE, element: <SignUp />, isProtected: false },
     { path: HOME_ROUTE, element: <HomePage />, isProtected: true, roles: ["admin"],},
+    { path: USER_ROUTE, element: <UserTable />, isProtected: true, roles: ["admin"],},
     { path: ABOUT_ROUTE, element: <AboutPage />, isProtected: true, roles: ["patient"],},
     { path: SETTING_ROUTE, element: <SettingPage />, isProtected: true, roles: [],},
     { path: NOT_AUTH, element: <NotAuthorized />, isProtected: false },

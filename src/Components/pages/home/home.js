@@ -1,9 +1,13 @@
 import React from "react";
 import "./home.css";
 import useVisitCounter from "./visitCounter";
+import {  useSelector } from "react-redux";
 
 const HomePage = () => {
+
+  const { user, isloading } = useSelector((state) => state.userlist);
   const  visits  = useVisitCounter();
+  console.log("user from dashboard", user.length);
   return (
   
       <div className="dashboard-container">
@@ -21,8 +25,9 @@ const HomePage = () => {
 
           </div>
           <div className="grid-item item3">
-            <h3>Recent Activity</h3>
-            <p>List of recent actions or activities.</p>
+            <h3>Total Users</h3>
+            <p>Currently, there are <strong>{user.length}</strong> registered users.</p>
+            
           </div>
           <div className="grid-item item4">
             <h3>Settings</h3>

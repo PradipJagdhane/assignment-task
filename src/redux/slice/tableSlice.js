@@ -4,6 +4,7 @@ const initialState = {
     data: [],
     isloading: false,
     error: null,
+    
 };
 
 const tableSlice = createSlice({
@@ -29,6 +30,8 @@ const tableSlice = createSlice({
         },
     },
 });
+
+
 
 export const { fetchTableRequest, fetchTableSuccess, fetchTableFailure } = tableSlice.actions;
 export default tableSlice.reducer;

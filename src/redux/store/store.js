@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import authSlice from "../slice/authSlice";
 import signupReducer from "../slice/signupSlice"; 
 import tableReducer from "../slice/tableSlice";
+import userReducer from "../slice/userDataSlice"
 import { rootSaga } from "../saga/rootSaga";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -14,6 +15,7 @@ const store = configureStore({
         auth: authSlice,
         signup: signupReducer,
         table: tableReducer,
+        userlist: userReducer,
     },
 
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sagaMiddleware),
