@@ -1,5 +1,5 @@
 import React from "react";
-import Example from "../table/table";
+import Example from "../table/providerTable";
 
 const AboutPage = () => {
     return(

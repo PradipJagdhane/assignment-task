@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import HomePage from "../pages/home/home";
 import AboutPage from "../pages/about";
 import SettingPage from "../pages/setting";
 import LoginPage from "../Auth/login/loginPage";
@@ -19,6 +18,7 @@ import {
 import ProtectedRoute from "./protectedRoute";
 import NotAuthorized from "../pages/errorPages/NotAuthorized";
 import UserTable from "../table/userData";
+import HomePage from "../pages/admin/home";
 
 const AllRoutes = () => {
   const location = useLocation();

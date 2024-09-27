@@ -74,3 +74,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 start mongodb server command:
 
 *sudo service mongod start*
+
+
+for kill the port: 
+
+*sudo kill -9 $(sudo lsof -t -i:5000)*
